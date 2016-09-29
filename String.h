@@ -3,61 +3,31 @@
 
 // for size_t (can represent size of main memory)
 #include <cstdlib>
-#include <iostream>
 
 class String
 {
 public:
 
   // constructor: initializes String with copy of 0-terminated C-string  
-  String(const char *p) {
-    std::cout << "Constructor" << std::endl;
-    SharedData *shared = new SharedData();
-
-    std::cout << "p is " << *p << std::endl;
-    *shared->data = *p; 
-  };
+  String(const char *p);
   
   // destructor (when can shared data be released?)
-  ~String() {
-    std::cout << "Destructor" << std::endl;
-    delete shared;
-  };  
+  ~String();
 
   // copy constructor (how does this change reference counts?)
-  String(const String &x) {
-    std::cout << "Copy Constructor" << std::endl;
-    SharedData *shared = new SharedData();
-
-    std::cout << "shared is " << *shared->data << std::endl;
-    std::cout << "x is " << x.shared->data << std::endl;
-    
-    *shared->data = *x.shared->data;
-  };
+  String(const String &x);
 
   // assignment operator (how does this change reference counts?)
-  String &operator=(const String &x){
-    std::cout << "Assignment Operator" << std::endl;
-    if (this != &x) {
-      shared->data = x.shared->data;
-    }
-    return *this;
-  }; 
+  String &operator=(const String &x); 
   
   // return number of non-0 characters in string
-  size_t size() const {
-    return shared->n;
-  };
+  size_t size() const;
 
   // return reference count
-  size_t ref_count() const {
-    return shared->count;
-  };
+  size_t ref_count() const;
   
   // returns pointer to C-string
-  const char *cstr() const {
-    return shared->data;
-  };
+  const char *cstr() const;
   
 private:
 
@@ -65,9 +35,6 @@ private:
   // shared by Strings when copying/assigning
   struct SharedData
   {
-    SharedData() {
-      data = new char[1000000];
-    };
     char *data;    // 0-terminated char array
     size_t n;      // number of non-0 characters in string
     size_t count;  // reference count, how many Strings share this object?
@@ -75,6 +42,5 @@ private:
   
   SharedData *shared;
 };
-
 
 #endif
