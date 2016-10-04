@@ -12,6 +12,7 @@ String::String(const char *p) {
 
   shared->data = new char[strlen(p)];
   shared->n = strlen(p);
+  shared->count = 1;
 
   for (int i=0; i<int(strlen(p)); i++) {
     *(shared->data+i) = *(p+i);
@@ -32,6 +33,8 @@ String::String(const String &x) {
 
   shared->data = new char[x.shared->n];
   shared->n = x.shared->n;
+  shared->count = x.shared->count + 1;
+  x.shared->count = x.shared->count + 1;
 
   for (int i=0; i<int(x.shared->n); i++) {
     *(shared->data+i) = *(x.shared->data+i);
@@ -45,6 +48,8 @@ String& String::operator=(const String &x){
   if (this != &x) {
     shared->data = x.shared->data;
     shared->n = x.shared->n;
+    shared->count = x.shared->count +1 ;
+    x.shared->count = x.shared->count + 1;
   }
   return *this;
 }
